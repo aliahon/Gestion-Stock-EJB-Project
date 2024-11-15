@@ -2,6 +2,7 @@ package metier.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+@Entity
 @Table(name="PRODUITS")
 public class Produit implements Serializable{
 	@Id
@@ -17,8 +18,25 @@ public class Produit implements Serializable{
 	
 	public Produit(String libelle, double quantite) {
 		super();
-		this.libelle = libelle;
-		this.quantite = quantite;
+		this.setLibelle(libelle);
+		this.setQuantite(quantite);
 	}
 //Getter and Setters
+
+	public String getLibelle() {
+		return libelle;
+	}
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
+	}
+
+	public double getQuantite() {
+		return quantite;
+	}
+
+	public void setQuantite(double quantite) {
+		this.quantite = quantite;
+	}
+	
 }
