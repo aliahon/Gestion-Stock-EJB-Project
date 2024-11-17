@@ -23,6 +23,14 @@ public class Produit implements Serializable{
 	}
 //Getter and Setters
 
+	public Long getCode() {
+		return code;
+	}
+
+	public void setCode(Long code) {
+		this.code = code;
+	}
+	
 	public String getLibelle() {
 		return libelle;
 	}
