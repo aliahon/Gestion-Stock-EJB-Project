@@ -46,6 +46,7 @@ public class ProduitEJBImpl implements IProduitLocal, IProduitRemote {
             em.merge(produit);
         }
     }
+
     
     @Override
     public Produit findProduitById(Long produitId) {
