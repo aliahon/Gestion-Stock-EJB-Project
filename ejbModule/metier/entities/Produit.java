@@ -1,50 +1,70 @@
 package metier.entities;
-import java.io.Serializable;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name="PRODUITS")
-public class Produit implements Serializable{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long code;
-	private String libelle;
-	private double quantite;
-	private static final long serialVersionUID = 1L;
-	
-	public Produit() {
-		super();
-	}
-	
-	public Produit(String libelle, double quantite) {
-		super();
-		this.setLibelle(libelle);
-		this.setQuantite(quantite);
-	}
-//Getter and Setters
+@Table(name = "PRODUITS")
+public class Produit implements Serializable {
 
-	public Long getCode() {
-		return code;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public void setCode(Long code) {
-		this.code = code;
-	}
-	
-	public String getLibelle() {
-		return libelle;
-	}
+    private String designation;
+    private double prix;
+    private int quantite;
 
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
-	}
+    @ManyToOne
+    @JoinColumn(name = "categorie_id")
+    private Categorie categorie;
 
-	public double getQuantite() {
-		return quantite;
-	}
+    public Produit() {}
 
-	public void setQuantite(double quantite) {
-		this.quantite = quantite;
-	}
-	
+    public Produit(String designation, double prix, int quantite, Categorie categorie) {
+        this.designation = designation;
+        this.prix = prix;
+        this.quantite = quantite;
+        this.categorie = categorie;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public double getPrix() {
+        return prix;
+    }
+
+    public void setPrix(double prix) {
+        this.prix = prix;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
 }

@@ -1,45 +1,54 @@
 package metier;
-import java.util.List;
+
+import metier.entities.*;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import metier.entities.Produit;
+import java.util.List;
 
-@Stateless(name="PROD")
-public class ProduitEJBImpl implements IProduitLocal, IProduitRemote{
-	
-	@PersistenceContext(unitName = "ProduitEJB")
-	private EntityManager em;
-	
-	@Override
-	public Produit addProduit(Produit pr) {
-		em.persist(pr);
-		return pr;
-	}
-	
-	@Override
-	public Produit getProduit(Long code) {
-		Produit pr=em.find(Produit.class, code);
-		if (pr==null) throw new RuntimeException("Produit introuvable");
-		return pr;
-	}
-	
-	@Override
-	public List<Produit> listProduits() {
-		Query req=em.createQuery("select p from Produit p");
-		return req.getResultList();
-	}
-	
-	@Override
-	public void ajouterQte(Long code, double qt) {
-		Produit pr=em.find(Produit.class, code);
-		pr.setQuantite(pr.getQuantite()+qt);
-	}
-	
-	@Override
-	public void retirerQte(Long code, double qt) {
-		Produit pr=em.find(Produit.class, code);
-		pr.setQuantite(pr.getQuantite()-qt);
-	}
+@Stateless
+public class ProduitEJBImpl implements IProduitLocal, IProduitRemote {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Override
+    public void addProduit(Produit produit) {
+        em.persist(produit);
+    }
+
+    @Override
+    public void updateProduit(Produit produit) {
+        em.merge(produit);
+    }
+
+    @Override
+    public void removeProduit(Long id) {
+        Produit produit = em.find(Produit.class, id);
+        if (produit != null) {
+            em.remove(produit);
+        }
+    }
+
+    @Override
+    public List<Produit> searchProduits(String keyword) {
+        return em.createQuery("SELECT p FROM Produit p WHERE p.designation LIKE :keyword", Produit.class)
+                 .setParameter("keyword", "%" + keyword + "%")
+                 .getResultList();
+    }
+
+    @Override
+    public void updateQuantite(Long produitId, int quantity) {
+        Produit produit = em.find(Produit.class, produitId);
+        if (produit != null) {
+            produit.setQuantite(produit.getQuantite() + quantity);
+            em.merge(produit);
+        }
+    }
+    
+    @Override
+    public Produit findProduitById(Long produitId) {
+        return em.find(Produit.class, produitId);  // Retrieve product by its ID
+    }
 }

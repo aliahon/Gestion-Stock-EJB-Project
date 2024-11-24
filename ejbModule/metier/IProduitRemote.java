@@ -1,13 +1,16 @@
 package metier;
-import java.util.List;
-import javax.ejb.Remote;
+
 import metier.entities.Produit;
+import java.util.List;
+
+import javax.ejb.Remote;
 
 @Remote
 public interface IProduitRemote {
-	public Produit addProduit(Produit pr);
-	public Produit getProduit(Long code);
-	public List<Produit> listProduits();
-	public void ajouterQte(Long code, double qt);
-	public void retirerQte(Long code, double qt);
+    void addProduit(Produit produit);
+    void updateProduit(Produit produit);
+    void removeProduit(Long id);
+    List<Produit> searchProduits(String keyword);
+    void updateQuantite(Long produitId, int quantity);
+    Produit findProduitById(Long produitId);
 }
